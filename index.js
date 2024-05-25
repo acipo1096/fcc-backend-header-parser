@@ -24,6 +24,26 @@ app.get('/api/hello', function (req, res) {
   res.json({ greeting: 'hello API' });
 });
 
+app.get('/api/whoami',function (req, res){
+
+  const fetchData = fetch("https://api.ipify.org?format=json")
+    .then(response => {
+      return response.json();
+    })
+    .then(data => {
+      return data;
+    })
+    .catch(error => {
+      return error;
+    })
+    
+    fetchData.then(data => {
+      res.json({"IP Address" : data});
+    })
+
+  });
+  
+
 // listen for requests :)
 var listener = app.listen(process.env.PORT || 3000, function () {
   console.log('Your app is listening on port ' + listener.address().port);
