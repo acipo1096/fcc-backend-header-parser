@@ -29,14 +29,16 @@ app.get('/api/hello', function (req, res) {
 
 app.get('/api/whoami',function (req, res){
 
-  const userAgent = req.headers['user-agent'];
-
   const getSystemInfo = () => {
     const platform = os.platform();
     return platform;
   }
+   
+   const language = req.headers['accept-language']
 
   const software = getSystemInfo();
+
+  const userAgent = req.headers['user-agent'];
 
 
   const fetchData = fetch("https://api.ipify.org?format=json")
@@ -53,9 +55,9 @@ app.get('/api/whoami',function (req, res){
     
     fetchData.then(data => {
       res.json({
-        "ipaddress" : data,
-        "language" : "",
-        "software" : software,
+        "ipaddress" : data.ip,
+        "language" : language,
+        "software" : userAgent
       });
     })
 
