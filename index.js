@@ -19,6 +19,9 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
+const os = require('os');
+const http = require('http');
+
 // your first API endpoint...
 app.get('/api/hello', function (req, res) {
   res.json({ greeting: 'hello API' });
@@ -26,19 +29,34 @@ app.get('/api/hello', function (req, res) {
 
 app.get('/api/whoami',function (req, res){
 
+  const userAgent = req.headers['user-agent'];
+
+  const getSystemInfo = () => {
+    const platform = os.platform();
+    return platform;
+  }
+
+  const software = getSystemInfo();
+
+
   const fetchData = fetch("https://api.ipify.org?format=json")
     .then(response => {
       return response.json();
     })
     .then(data => {
-      return data;
+      const ipaddress = data;
+      return ipaddress;
     })
     .catch(error => {
       return error;
     })
     
     fetchData.then(data => {
-      res.json({"IP Address" : data});
+      res.json({
+        "ipaddress" : data,
+        "language" : "",
+        "software" : software,
+      });
     })
 
   });
