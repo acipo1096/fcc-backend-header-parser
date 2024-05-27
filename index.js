@@ -29,29 +29,25 @@ app.get('/api/hello', function (req, res) {
 
 app.get('/api/whoami',function (req, res){
 
-  const getSystemInfo = () => {
-    const platform = os.platform();
-    return platform;
-  }
-   
-   const language = req.headers['accept-language']
+  // Get IP address
+  const fetchData = fetch("https://api.ipify.org?format=json")
+  .then(response => {
+    return response.json();
+  })
+  .then(data => {
+    const ipaddress = data;
+    return ipaddress;
+  })
+  .catch(error => {
+    return error;
+  })
 
-  const software = getSystemInfo();
+  // Get language
+  const language = req.headers['accept-language']
 
+  // Get software
   const userAgent = req.headers['user-agent'];
 
-
-  const fetchData = fetch("https://api.ipify.org?format=json")
-    .then(response => {
-      return response.json();
-    })
-    .then(data => {
-      const ipaddress = data;
-      return ipaddress;
-    })
-    .catch(error => {
-      return error;
-    })
     
     fetchData.then(data => {
       res.json({
