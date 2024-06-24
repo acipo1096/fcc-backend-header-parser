@@ -47,7 +47,6 @@ app.get('/api/whoami',function (req, res){
 
   // Get software
   const userAgent = req.headers['user-agent'];
-
     
     fetchData.then(data => {
       res.json({
